@@ -84,6 +84,11 @@ class NgoDashboardLayout extends ConsumerWidget {
           route: '/ngo-volunteers',
         ),
         _DrawerItem(
+          icon: Icons.work_outline,
+          title: 'Freelancers',
+          route: '/ngo-freelancers',
+        ),
+        _DrawerItem(
           icon: Icons.workspace_premium_outlined,
           title: 'Certificates',
           route: '/ngo-certificates',

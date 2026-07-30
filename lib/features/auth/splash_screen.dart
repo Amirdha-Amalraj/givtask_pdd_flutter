@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../services/supabase_service.dart';
+import '../../core/widgets/givtask_logo.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -43,16 +44,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.volunteer_activism, size: 80, color: Colors.white),
-            SizedBox(height: 24),
-            Text(
-              'GivTask',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            GivTaskLogo(size: 80, color: Colors.white),
+            const SizedBox(height: 16),
             SizedBox(height: 8),
             Text(
               'Skill-Based Matching Platform',

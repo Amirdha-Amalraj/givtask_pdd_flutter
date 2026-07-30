@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/widgets/givtask_logo.dart';
 
 // ──────────────────────── BRAND PALETTE ────────────────────────
 const _kPrimary = Color(0xFF2E7D32);
@@ -39,7 +41,6 @@ class _LandingScreenState extends State<LandingScreen> {
   final GlobalKey _howItWorksKey = GlobalKey();
   final GlobalKey _statsKey = GlobalKey();
   final GlobalKey _benefitsKey = GlobalKey();
-  final GlobalKey _testimonialsKey = GlobalKey();
   final GlobalKey _faqKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
 
@@ -96,9 +97,8 @@ class _LandingScreenState extends State<LandingScreen> {
                 _AboutSection(sectionKey: _aboutKey),
                 _FeaturesSection(sectionKey: _featuresKey),
                 _HowItWorksSection(sectionKey: _howItWorksKey),
-                _StatsSection(sectionKey: _statsKey),
+                _MissionSection(sectionKey: _statsKey),
                 _BenefitsSection(sectionKey: _benefitsKey),
-                _TestimonialsSection(sectionKey: _testimonialsKey),
                 _FaqSection(sectionKey: _faqKey),
                 _ContactSection(sectionKey: _contactKey),
                 const _FooterSection(),
@@ -137,11 +137,7 @@ class _LandingScreenState extends State<LandingScreen> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.volunteer_activism, color: _kPrimary, size: 28),
-                  const SizedBox(width: 8),
-                  Text('GivTask', style: GoogleFonts.inter(
-                    fontSize: 22, fontWeight: FontWeight.w800, color: _kPrimary,
-                  )),
+                  const GivTaskLogo(size: 28),
                   const Spacer(),
                   IconButton(
                     icon: const Icon(Icons.close),
@@ -259,13 +255,10 @@ class _NavBar extends StatelessWidget {
                   onTap: onLogoTap,
                   child: Row(
                     children: [
-                      Icon(Icons.volunteer_activism,
-                          color: isScrolled ? _kPrimary : Colors.white, size: 30),
-                      const SizedBox(width: 10),
-                      Text('GivTask', style: GoogleFonts.inter(
+                      GivTaskLogo(
+                        size: 30,
                         color: isScrolled ? _kPrimary : Colors.white,
-                        fontSize: 22, fontWeight: FontWeight.w800,
-                      )),
+                      ),
                     ],
                   ),
                 ),
@@ -544,9 +537,7 @@ class _HeroSection extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 60),
-                    // Hero Stats
-                    _HeroStats(isMobile: isMobile),
+
                   ],
                 ),
               ),
@@ -618,63 +609,7 @@ class _HeroButtonState extends State<_HeroButton> {
   }
 }
 
-class _HeroStats extends StatelessWidget {
-  final bool isMobile;
-  const _HeroStats({required this.isMobile});
 
-  @override
-  Widget build(BuildContext context) {
-    final stats = [
-      ('500+', 'NGOs Registered'),
-      ('12,000+', 'Active Volunteers'),
-      ('3,800+', 'Tasks Completed'),
-      ('48,000+', 'Hours Contributed'),
-    ];
-
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.07),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
-      ),
-      child: isMobile
-          ? Wrap(
-              spacing: 24, runSpacing: 20,
-              alignment: WrapAlignment.center,
-              children: stats.map((s) => _HeroStatItem(number: s.$1, label: s.$2)).toList(),
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: stats.expand((s) => [
-                _HeroStatItem(number: s.$1, label: s.$2),
-                if (s != stats.last)
-                  Container(width: 1, height: 40, color: Colors.white.withValues(alpha: 0.15)),
-              ]).toList(),
-            ),
-    );
-  }
-}
-
-class _HeroStatItem extends StatelessWidget {
-  final String number;
-  final String label;
-  const _HeroStatItem({required this.number, required this.label});
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(number, style: GoogleFonts.inter(
-          color: _kPrimaryLight, fontSize: 28, fontWeight: FontWeight.w800,
-        )),
-        const SizedBox(height: 4),
-        Text(label, style: GoogleFonts.inter(
-          color: Colors.white.withValues(alpha: 0.65), fontSize: 13, fontWeight: FontWeight.w500,
-        )),
-      ],
-    );
-  }
-}
 
 // ──────────────────────── ABOUT SECTION ────────────────────────
 class _AboutSection extends StatelessWidget {
@@ -1099,23 +1034,13 @@ class _StepCard extends StatelessWidget {
   }
 }
 
-// ──────────────────────── STATS SECTION ────────────────────────
-class _StatsSection extends StatelessWidget {
+// ──────────────────────── MISSION SECTION ────────────────────────
+class _MissionSection extends StatelessWidget {
   final GlobalKey sectionKey;
-  const _StatsSection({required this.sectionKey});
+  const _MissionSection({required this.sectionKey});
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 768;
-    final stats = [
-      ('500+', 'NGOs Registered', Icons.business_rounded),
-      ('12,000+', 'Active Volunteers', Icons.volunteer_activism_rounded),
-      ('2,500+', 'Freelancers', Icons.work_rounded),
-      ('3,800+', 'Tasks Completed', Icons.task_alt_rounded),
-      ('48K+', 'Volunteer Hours', Icons.schedule_rounded),
-      ('\$240K+', 'Freelancer Earnings', Icons.trending_up_rounded),
-    ];
-
     return Container(
       key: sectionKey,
       width: double.infinity,
@@ -1132,41 +1057,28 @@ class _StatsSection extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: _kMaxWidth),
           child: Column(
             children: [
-              Text('Our Impact in Numbers', style: GoogleFonts.inter(
+              Text('Our Mission', style: GoogleFonts.inter(
                 color: Colors.white, fontSize: 34, fontWeight: FontWeight.w800,
               )),
               const SizedBox(height: 12),
-              Text('Real results from a growing community of changemakers.', style: GoogleFonts.inter(
+              Text('Why GivTask exists and who we serve.', style: GoogleFonts.inter(
                 color: Colors.white.withValues(alpha: 0.65), fontSize: 17,
               )),
               const SizedBox(height: 56),
-              Wrap(
-                spacing: 20, runSpacing: 20,
-                alignment: WrapAlignment.center,
-                children: stats.map((s) => SizedBox(
-                  width: isMobile ? 150 : 170,
-                  child: Container(
-                    padding: const EdgeInsets.all(24),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.07),
-                      borderRadius: BorderRadius.circular(18),
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(s.$3, color: _kPrimaryLight, size: 30),
-                        const SizedBox(height: 12),
-                        Text(s.$1, style: GoogleFonts.inter(
-                          color: Colors.white, fontSize: 28, fontWeight: FontWeight.w900,
-                        )),
-                        const SizedBox(height: 4),
-                        Text(s.$2, textAlign: TextAlign.center, style: GoogleFonts.inter(
-                          color: Colors.white.withValues(alpha: 0.6), fontSize: 13, fontWeight: FontWeight.w500,
-                        )),
-                      ],
-                    ),
+              Container(
+                padding: const EdgeInsets.all(40),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.07),
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+                ),
+                child: Text(
+                  'GivTask connects NGOs, Volunteers, and Freelancers to collaborate on meaningful volunteer opportunities and paid projects. We believe in helping communities while enabling users to develop skills, build their portfolios, and make a positive impact in the world.',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(
+                    color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500, height: 1.6,
                   ),
-                )).toList(),
+                ),
               ),
             ],
           ),
@@ -1310,150 +1222,6 @@ class _BenefitCard extends StatelessWidget {
   }
 }
 
-// ──────────────────────── TESTIMONIALS ────────────────────────
-class _TestimonialsSection extends StatelessWidget {
-  final GlobalKey sectionKey;
-  const _TestimonialsSection({required this.sectionKey});
-
-  static const _testimonials = [
-    ('Sarah M.', 'Program Director, Green Earth NGO', 'GivTask completely changed how we find volunteers. We posted a task and within 24 hours had 12 qualified applicants. The skill matching is incredibly accurate.', 5, 'NGO'),
-    ('Ravi K.', 'Software Engineer & Volunteer', 'I wanted to volunteer but never found the right fit. GivTask matched me with an NGO that needed my exact React skills. I built their donation platform and got a beautiful certificate.', 5, 'Volunteer'),
-    ('Priya S.', 'Freelance UX Designer', 'My first freelance project through GivTask was for a health NGO. The milestone payments worked flawlessly and the client was amazing. I now work with 3 NGOs regularly.', 5, 'Freelancer'),
-    ('Ahmed L.', 'Executive Director, Youth First', 'We needed a data analyst urgently. GivTask found us a qualified freelancer in 2 days. The verification process gave us confidence in the quality of work.', 5, 'NGO'),
-    ('Meena T.', 'Recent Graduate & Volunteer', 'As a student, I needed real experience. GivTask helped me volunteer for 4 NGOs in 6 months. The certificates and hours log have been invaluable for my resume.', 5, 'Volunteer'),
-    ('Carlos R.', 'Freelance Video Producer', 'Meaningful work that pays fairly. GivTask gives me access to NGO clients who genuinely appreciate quality work. The platform is smooth and professional.', 5, 'Freelancer'),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 768;
-
-    return _SectionWrapper(
-      backgroundColor: Colors.white,
-      child: Column(
-        key: sectionKey,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-            decoration: BoxDecoration(color: _kBgAlt, borderRadius: BorderRadius.circular(50)),
-            child: Text('SUCCESS STORIES', style: GoogleFonts.inter(
-              color: _kPrimary, fontSize: 12, fontWeight: FontWeight.w700, letterSpacing: 1.5,
-            )),
-          ),
-          const SizedBox(height: 20),
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: const _SectionTitle(
-              title: 'Hear From Our Community',
-              subtitle: 'Real stories from NGOs, volunteers, and freelancers who have transformed their impact.',
-            ),
-          ),
-          const SizedBox(height: 56),
-          if (isMobile)
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: _testimonials.map((t) => Container(
-                  width: 300,
-                  margin: const EdgeInsets.only(right: 16),
-                  child: _TestimonialCard(name: t.$1, role: t.$2, text: t.$3, stars: t.$4, badge: t.$5),
-                )).toList(),
-              ),
-            )
-          else
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, crossAxisSpacing: 20, mainAxisSpacing: 20, childAspectRatio: 0.85,
-              ),
-              itemCount: _testimonials.length,
-              itemBuilder: (context, index) {
-                final t = _testimonials[index];
-                return _TestimonialCard(name: t.$1, role: t.$2, text: t.$3, stars: t.$4, badge: t.$5);
-              },
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TestimonialCard extends StatelessWidget {
-  final String name;
-  final String role;
-  final String text;
-  final int stars;
-  final String badge;
-  const _TestimonialCard({required this.name, required this.role, required this.text, required this.stars, required this.badge});
-
-  Color get _badgeColor {
-    switch (badge) {
-      case 'NGO': return _kPrimary;
-      case 'Volunteer': return _kOrange;
-      case 'Freelancer': return _kBlue;
-      default: return _kPrimary;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: _kBgLight,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: _kBorder),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Stars
-          Row(
-            children: List.generate(stars, (_) => const Icon(Icons.star_rounded, color: Color(0xFFFBBC04), size: 18)),
-          ),
-          const SizedBox(height: 14),
-          Text('"$text"', style: GoogleFonts.inter(
-            fontSize: 14.5, color: _kTextPrimary, height: 1.65, fontStyle: FontStyle.italic,
-          )),
-          const Spacer(),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 22,
-                backgroundColor: _badgeColor.withValues(alpha: 0.1),
-                child: Text(name[0], style: GoogleFonts.inter(
-                  color: _badgeColor, fontWeight: FontWeight.w800, fontSize: 18,
-                )),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(name, style: GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 14, color: _kTextPrimary)),
-                    Text(role, style: GoogleFonts.inter(fontSize: 12, color: _kTextSecondary)),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: _badgeColor.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(badge, style: GoogleFonts.inter(
-                  color: _badgeColor, fontSize: 11, fontWeight: FontWeight.w700,
-                )),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 // ──────────────────────── FAQ SECTION ────────────────────────
 class _FaqSection extends StatelessWidget {

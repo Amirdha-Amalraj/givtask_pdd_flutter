@@ -97,8 +97,8 @@ class _ApplicationReviewScreenState extends ConsumerState<ApplicationReviewScree
                   children: [
                     const Text('Current Status:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                     Chip(
-                      label: Text(app.status ?? 'Pending', style: const TextStyle(fontWeight: FontWeight.bold)),
-                      backgroundColor: _getStatusColor(app.status ?? 'Pending').withAlpha(40),
+                      label: Text(app.status ?? 'applied', style: const TextStyle(fontWeight: FontWeight.bold)),
+                      backgroundColor: _getStatusColor(app.status ?? 'applied').withAlpha(40),
                       side: BorderSide.none,
                     ),
                   ],
@@ -106,26 +106,27 @@ class _ApplicationReviewScreenState extends ConsumerState<ApplicationReviewScree
                 const SizedBox(height: 48),
                 if (_isSaving)
                   const Center(child: CircularProgressIndicator())
-                else if (app.status == 'Pending' || app.status == 'Shortlisted')
+                else if (app.status == 'applied')
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       ElevatedButton(
-                        onPressed: () => _updateStatus('Accepted', app.applicantId, 'Task ${app.taskId}'),
+                        onPressed: () => _updateStatus('accepted', app.applicantId, 'Task ${app.taskId}'),
                         style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white),
                         child: const Text('Accept Applicant'),
                       ),
                       const SizedBox(height: 16),
-                      if (app.status == 'Pending') ...[
+                      if (app.status == 'applied') ...[
                         OutlinedButton(
-                          onPressed: () => _updateStatus('Shortlisted', app.applicantId, 'Task ${app.taskId}'),
+                          // TODO: Future enhancement. Shortlist is not currently supported in DB schema.
+                          onPressed: null,
                           style: OutlinedButton.styleFrom(foregroundColor: Colors.purple),
-                          child: const Text('Shortlist Applicant'),
+                          child: const Text('Shortlist Applicant (Coming Soon)'),
                         ),
                         const SizedBox(height: 16),
                       ],
                       TextButton(
-                        onPressed: () => _updateStatus('Rejected', app.applicantId, 'Task ${app.taskId}'),
+                        onPressed: () => _updateStatus('rejected', app.applicantId, 'Task ${app.taskId}'),
                         style: TextButton.styleFrom(foregroundColor: Colors.red),
                         child: const Text('Reject Applicant'),
                       ),
@@ -141,10 +142,10 @@ class _ApplicationReviewScreenState extends ConsumerState<ApplicationReviewScree
 
   Color _getStatusColor(String status) {
     switch (status) {
-      case 'Accepted': return Colors.green;
-      case 'Pending': return Colors.orange;
-      case 'Rejected': return Colors.red;
-      case 'Shortlisted': return Colors.purple;
+      case 'accepted': return Colors.green;
+      case 'applied': return Colors.orange;
+      case 'rejected': return Colors.red;
+      case 'completed': return Colors.blue;
       default: return Colors.grey;
     }
   }

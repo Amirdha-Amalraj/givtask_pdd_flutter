@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'data/auth_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../core/widgets/givtask_logo.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   final String role;
@@ -101,9 +102,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const Center(child: GivTaskLogo(size: 70)),
+                const SizedBox(height: 32),
                 Text(
                   'Create your account',
-                  style: theme.textTheme.headlineMedium,
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(

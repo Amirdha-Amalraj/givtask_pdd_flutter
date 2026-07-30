@@ -22,5 +22,10 @@ final ngoApplicationsProvider = FutureProvider<List<ApplicationModel>>((ref) asy
 
 final ngoVolunteersProvider = FutureProvider<List<ProfileModel>>((ref) async {
   final repo = ref.watch(ngoRepositoryProvider);
-  return repo.getMyVolunteers();
+  return repo.getAllVolunteers();
+});
+
+final ngoFreelancersProvider = FutureProvider<List<ProfileModel>>((ref) async {
+  final repo = ref.watch(ngoRepositoryProvider);
+  return repo.getAllFreelancers();
 });

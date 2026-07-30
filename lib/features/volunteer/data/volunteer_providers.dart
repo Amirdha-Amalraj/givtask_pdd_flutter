@@ -33,14 +33,12 @@ final myApplicationsProvider = FutureProvider.autoDispose<List<ApplicationModel>
 
 final myActiveTasksProvider = FutureProvider.autoDispose<List<ApplicationModel>>((ref) async {
   final applications = await ref.watch(myApplicationsProvider.future);
-  // Assuming 'Accepted' is the status for active tasks
-  return applications.where((app) => app.status == 'Accepted').toList();
+  return applications.where((app) => app.status == 'accepted' || app.status == 'Accepted').toList();
 });
 
 final completedTasksProvider = FutureProvider.autoDispose<List<ApplicationModel>>((ref) async {
   final applications = await ref.watch(myApplicationsProvider.future);
-  // Assuming 'Completed' is the status for completed tasks
-  return applications.where((app) => app.status == 'Completed').toList();
+  return applications.where((app) => app.status == 'completed' || app.status == 'Completed').toList();
 });
 
 final savedTasksProvider = FutureProvider.autoDispose<List<TaskModel>>((ref) async {

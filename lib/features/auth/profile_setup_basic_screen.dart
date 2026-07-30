@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/widgets/givtask_logo.dart';
 
 class ProfileSetupBasicScreen extends StatefulWidget {
   const ProfileSetupBasicScreen({super.key});
@@ -43,9 +44,13 @@ class _ProfileSetupBasicScreenState extends State<ProfileSetupBasicScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const Center(child: GivTaskLogo(size: 50)),
+                const SizedBox(height: 24),
                 Text(
                   'Basic Information',
-                  style: theme.textTheme.headlineMedium,
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(

@@ -27,10 +27,10 @@ class _ApplicantsListScreenState extends ConsumerState<ApplicantsListScreen> {
             onSelected: (val) => setState(() => _filterStatus = val),
             itemBuilder: (context) => const [
               PopupMenuItem(value: 'All', child: Text('All')),
-              PopupMenuItem(value: 'Pending', child: Text('Pending')),
-              PopupMenuItem(value: 'Accepted', child: Text('Accepted')),
-              PopupMenuItem(value: 'Rejected', child: Text('Rejected')),
-              PopupMenuItem(value: 'Shortlisted', child: Text('Shortlisted')),
+              PopupMenuItem(value: 'applied', child: Text('Applied')),
+              PopupMenuItem(value: 'accepted', child: Text('Accepted')),
+              PopupMenuItem(value: 'rejected', child: Text('Rejected')),
+              PopupMenuItem(value: 'completed', child: Text('Completed')),
             ],
             icon: const Icon(Icons.filter_list),
           ),
@@ -83,8 +83,8 @@ class _ApplicantsListScreenState extends ConsumerState<ApplicantsListScreen> {
                         Text('Task ID: ${app.taskId}'),
                         const SizedBox(height: 8),
                         Chip(
-                          label: Text(app.status ?? 'Pending', style: const TextStyle(fontSize: 12)),
-                          backgroundColor: _getStatusColor(app.status ?? 'Pending').withAlpha(30),
+                          label: Text(app.status ?? 'applied', style: const TextStyle(fontSize: 12)),
+                          backgroundColor: _getStatusColor(app.status ?? 'applied').withAlpha(30),
                           side: BorderSide.none,
                         ),
                       ],
@@ -105,10 +105,10 @@ class _ApplicantsListScreenState extends ConsumerState<ApplicantsListScreen> {
 
   Color _getStatusColor(String status) {
     switch (status) {
-      case 'Accepted': return Colors.green;
-      case 'Pending': return Colors.orange;
-      case 'Rejected': return Colors.red;
-      case 'Shortlisted': return Colors.purple;
+      case 'accepted': return Colors.green;
+      case 'applied': return Colors.orange;
+      case 'rejected': return Colors.red;
+      case 'completed': return Colors.blue;
       default: return Colors.grey;
     }
   }

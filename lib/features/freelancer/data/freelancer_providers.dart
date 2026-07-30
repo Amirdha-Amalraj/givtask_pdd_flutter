@@ -31,7 +31,7 @@ final myProposalsProvider = FutureProvider.autoDispose<List<ApplicationModel>>((
 
 final freelancerActiveProjectsProvider = FutureProvider.autoDispose<List<ApplicationModel>>((ref) async {
   final proposals = await ref.watch(myProposalsProvider.future);
-  return proposals.where((app) => app.status == 'accepted').toList();
+  return proposals.where((app) => app.status == 'Accepted' || app.status == 'accepted').toList();
 });
 
 final freelancerCompletedProjectsProvider = FutureProvider.autoDispose<List<ApplicationModel>>((ref) async {

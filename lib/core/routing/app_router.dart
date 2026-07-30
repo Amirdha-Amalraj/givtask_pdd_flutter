@@ -18,6 +18,7 @@ import '../../features/shared/notifications_screen.dart';
 import '../../features/ngo/ngo_org_details_screen.dart';
 import '../../features/ngo/ngo_doc_upload_screen.dart';
 import '../../features/ngo/ngo_verification_status_screen.dart';
+import '../../features/ngo/ngo_freelancers_screen.dart';
 import '../../features/ngo/ngo_dashboard_screen.dart';
 import '../../features/ngo/create_task_type_screen.dart';
 import '../../features/ngo/create_task_details_screen.dart';
@@ -239,7 +240,8 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/create-task-details',
             builder: (context, state) {
               final id = state.uri.queryParameters['id'];
-              return CreateTaskDetailsScreen(taskId: id);
+              final type = state.uri.queryParameters['type'];
+              return CreateTaskDetailsScreen(taskId: id, taskType: type);
             },
           ),
           GoRoute(
@@ -258,7 +260,8 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/task-detail-edit',
             builder: (context, state) {
               final id = state.uri.queryParameters['id'];
-              return CreateTaskDetailsScreen(taskId: id);
+              final type = state.uri.queryParameters['type'];
+              return CreateTaskDetailsScreen(taskId: id, taskType: type);
             },
           ),
           GoRoute(
@@ -306,6 +309,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/ngo-volunteers',
             builder: (context, state) => const NgoVolunteersScreen(),
+          ),
+          GoRoute(
+            path: '/ngo-freelancers',
+            builder: (context, state) => const NgoFreelancersScreen(),
           ),
           GoRoute(
             path: '/ngo-certificates',

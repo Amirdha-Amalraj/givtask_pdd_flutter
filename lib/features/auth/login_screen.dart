@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'data/auth_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../core/widgets/givtask_logo.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -102,11 +103,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Icon(Icons.handshake, size: 80, color: Colors.green),
-                const SizedBox(height: 16),
+                const Center(child: GivTaskLogo(size: 70)),
+                const SizedBox(height: 32),
                 Text(
                   'Welcome Back!',
-                  style: theme.textTheme.headlineMedium,
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),

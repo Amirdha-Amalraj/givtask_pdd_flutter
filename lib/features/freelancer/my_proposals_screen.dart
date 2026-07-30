@@ -31,9 +31,9 @@ class MyProposalsScreen extends ConsumerWidget {
               final task = app.task;
 
               Color statusColor = Colors.grey;
-              if (app.status == 'accepted') statusColor = Colors.green;
-              if (app.status == 'rejected') statusColor = Colors.red;
-              if (app.status == 'shortlisted') statusColor = Colors.orange;
+              if (app.status == 'accepted' || app.status == 'Accepted') statusColor = Colors.green;
+              if (app.status == 'rejected' || app.status == 'Rejected') statusColor = Colors.red;
+              if (app.status == 'shortlisted' || app.status == 'Shortlisted') statusColor = Colors.purple;
               if (app.status == 'completed') statusColor = Colors.blue;
 
               return Card(

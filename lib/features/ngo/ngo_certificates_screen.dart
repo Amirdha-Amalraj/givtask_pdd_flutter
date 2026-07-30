@@ -15,16 +15,18 @@ class NgoCertificatesScreen extends ConsumerStatefulWidget {
 class _NgoCertificatesScreenState extends ConsumerState<NgoCertificatesScreen> {
   Future<void> _showIssueCertificateDialog() async {
     final volunteers = await ref.read(ngoVolunteersProvider.future);
+    final freelancers = await ref.read(ngoFreelancersProvider.future);
+    final allUsers = [...volunteers, ...freelancers];
     final tasks = await ref.read(ngoTasksProvider.future);
 
     if (!mounted) return;
     
-    if (volunteers.isEmpty || tasks.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('You need both volunteers and tasks to issue a certificate.')));
+    if (allUsers.isEmpty || tasks.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('You need both volunteers/freelancers and tasks to issue a certificate.')));
       return;
     }
 
-    String? selectedVolunteerId = volunteers.first.id;
+    String? selectedUserId = allUsers.first.id;
     String? selectedTaskId = tasks.first.id;
     final titleController = TextEditingController(text: 'Certificate of Excellence');
 
@@ -40,10 +42,10 @@ class _NgoCertificatesScreenState extends ConsumerState<NgoCertificatesScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(labelText: 'Select Volunteer'),
-                    value: selectedVolunteerId,
-                    items: volunteers.map((v) => DropdownMenuItem(value: v.id, child: Text(v.fullName ?? 'Unknown'))).toList(),
-                    onChanged: (val) => setDialogState(() => selectedVolunteerId = val),
+                    decoration: const InputDecoration(labelText: 'Select Volunteer or Freelancer'),
+                    value: selectedUserId,
+                    items: allUsers.map((u) => DropdownMenuItem(value: u.id, child: Text('${u.fullName ?? 'Unknown'} (${u.role})'))).toList(),
+                    onChanged: (val) => setDialogState(() => selectedUserId = val),
                   ),
                   const SizedBox(height: 16),
                   DropdownButtonFormField<String>(
@@ -63,9 +65,9 @@ class _NgoCertificatesScreenState extends ConsumerState<NgoCertificatesScreen> {
                 TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
                 ElevatedButton(
                   onPressed: () async {
-                    if (selectedVolunteerId != null && selectedTaskId != null && titleController.text.isNotEmpty) {
+                    if (selectedUserId != null && selectedTaskId != null && titleController.text.isNotEmpty) {
                       Navigator.pop(context);
-                      await _issueCertificate(selectedVolunteerId!, selectedTaskId!, titleController.text);
+                      await _issueCertificate(selectedUserId!, selectedTaskId!, titleController.text);
                     }
                   },
                   child: const Text('Issue'),
@@ -103,7 +105,7 @@ class _NgoCertificatesScreenState extends ConsumerState<NgoCertificatesScreen> {
           children: [
             Icon(Icons.workspace_premium, size: 80, color: Theme.of(context).disabledColor),
             const SizedBox(height: 16),
-            const Text('Manage and issue certificates to volunteers.'),
+            const Text('Manage and issue certificates to volunteers and freelancers.'),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: _showIssueCertificateDialog,

@@ -77,7 +77,7 @@ class VolunteerRepository {
       'task_id': taskId,
       'applicant_id': userId,
       'cover_note': coverNote,
-      'status': 'Pending',
+      'status': 'applied',
     });
   }
 

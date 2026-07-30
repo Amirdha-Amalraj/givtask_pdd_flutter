@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/widgets/givtask_logo.dart';
 
 class RoleSelectionScreen extends StatelessWidget {
   final String action;
@@ -20,6 +21,8 @@ class RoleSelectionScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const Center(child: GivTaskLogo(size: 60)),
+            const SizedBox(height: 24),
             Text(
               action == 'login' 
                   ? 'Select your role to log in to your account.'

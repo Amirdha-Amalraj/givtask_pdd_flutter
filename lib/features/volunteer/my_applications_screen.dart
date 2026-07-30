@@ -27,9 +27,14 @@ class MyApplicationsScreen extends ConsumerWidget {
               final task = app.task;
               
               Color statusColor = Colors.grey;
-              if (app.status == 'Pending') statusColor = Colors.orange;
-              if (app.status == 'Accepted') statusColor = Colors.green;
-              if (app.status == 'Rejected') statusColor = Colors.red;
+              if (app.status == 'applied') statusColor = Colors.orange;
+              if (app.status == 'accepted') statusColor = Colors.green;
+              if (app.status == 'rejected') statusColor = Colors.red;
+              
+              String displayStatus = app.status ?? 'Unknown';
+              if (displayStatus.isNotEmpty) {
+                displayStatus = displayStatus[0].toUpperCase() + displayStatus.substring(1);
+              }
 
               return Card(
                 margin: const EdgeInsets.only(bottom: 16),
@@ -46,7 +51,7 @@ class MyApplicationsScreen extends ConsumerWidget {
                     ],
                   ),
                   trailing: Chip(
-                    label: Text(app.status ?? 'Unknown', style: const TextStyle(color: Colors.white)),
+                    label: Text(displayStatus, style: const TextStyle(color: Colors.white)),
                     backgroundColor: statusColor,
                   ),
                 ),

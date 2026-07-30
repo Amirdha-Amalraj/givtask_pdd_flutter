@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'data/ngo_providers.dart';
 
-class NgoVolunteersScreen extends ConsumerStatefulWidget {
-  const NgoVolunteersScreen({super.key});
+class NgoFreelancersScreen extends ConsumerStatefulWidget {
+  const NgoFreelancersScreen({super.key});
 
   @override
-  ConsumerState<NgoVolunteersScreen> createState() => _NgoVolunteersScreenState();
+  ConsumerState<NgoFreelancersScreen> createState() => _NgoFreelancersScreenState();
 }
 
-class _NgoVolunteersScreenState extends ConsumerState<NgoVolunteersScreen> {
+class _NgoFreelancersScreenState extends ConsumerState<NgoFreelancersScreen> {
   String _searchQuery = '';
   String _selectedAvailability = 'All';
   String _selectedLocation = 'All';
@@ -17,12 +17,12 @@ class _NgoVolunteersScreenState extends ConsumerState<NgoVolunteersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final volunteersAsync = ref.watch(ngoVolunteersProvider);
+    final freelancersAsync = ref.watch(ngoFreelancersProvider);
     final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Volunteer Directory'),
+        title: const Text('Freelancer Directory'),
       ),
       body: Column(
         children: [
@@ -32,7 +32,7 @@ class _NgoVolunteersScreenState extends ConsumerState<NgoVolunteersScreen> {
               children: [
                 TextField(
                   decoration: InputDecoration(
-                    hintText: 'Search volunteers...',
+                    hintText: 'Search freelancers...',
                     prefixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
@@ -64,11 +64,11 @@ class _NgoVolunteersScreenState extends ConsumerState<NgoVolunteersScreen> {
             ),
           ),
           Expanded(
-            child: volunteersAsync.when(
+            child: freelancersAsync.when(
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (err, _) => Center(child: Text('Error: $err')),
-              data: (volunteers) {
-                final filtered = volunteers.where((v) {
+              data: (freelancers) {
+                final filtered = freelancers.where((v) {
                   final name = v.fullName?.toLowerCase() ?? '';
                   final matchesSearch = name.contains(_searchQuery);
                   final matchesAvail = _selectedAvailability == 'All' || (v.availability?.contains(_selectedAvailability) ?? false);
@@ -83,7 +83,7 @@ class _NgoVolunteersScreenState extends ConsumerState<NgoVolunteersScreen> {
                       children: [
                         Icon(Icons.group_off_outlined, size: 64, color: theme.disabledColor),
                         const SizedBox(height: 16),
-                        Text('No volunteers found.', style: theme.textTheme.titleMedium),
+                        Text('No freelancers found.', style: theme.textTheme.titleMedium),
                       ],
                     ),
                   );
@@ -101,11 +101,11 @@ class _NgoVolunteersScreenState extends ConsumerState<NgoVolunteersScreen> {
                           backgroundImage: v.avatarUrl != null ? NetworkImage(v.avatarUrl!) : null,
                           child: v.avatarUrl == null ? const Icon(Icons.person) : null,
                         ),
-                        title: Text(v.fullName ?? 'Unknown Volunteer', style: const TextStyle(fontWeight: FontWeight.bold)),
+                        title: Text(v.fullName ?? 'Unknown Freelancer', style: const TextStyle(fontWeight: FontWeight.bold)),
                         subtitle: Text(v.bio ?? 'No bio provided'),
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () {
-                          // Could navigate to a detailed volunteer profile view
+                          // Could navigate to a detailed freelancer profile view
                         },
                       ),
                     );

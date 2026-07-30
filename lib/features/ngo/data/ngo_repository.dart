@@ -113,6 +113,22 @@ class NgoRepository {
     return uniqueVolunteers.values.toList();
   }
 
+  Future<List<ProfileModel>> getAllVolunteers() async {
+    final response = await _client
+        .from('profiles')
+        .select()
+        .eq('role', 'volunteer');
+    return (response as List).map((p) => ProfileModel.fromJson(p)).toList();
+  }
+
+  Future<List<ProfileModel>> getAllFreelancers() async {
+    final response = await _client
+        .from('profiles')
+        .select()
+        .eq('role', 'freelancer');
+    return (response as List).map((p) => ProfileModel.fromJson(p)).toList();
+  }
+
   // --- CERTIFICATES ---
   Future<void> issueCertificate(String volunteerId, String taskId, String title) async {
     await _client.from('certificates').insert({

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'data/auth_repository.dart';
+import '../../core/widgets/givtask_logo.dart';
 
 class UpdatePasswordScreen extends ConsumerStatefulWidget {
   const UpdatePasswordScreen({super.key});
@@ -84,11 +85,13 @@ class _UpdatePasswordScreenState extends ConsumerState<UpdatePasswordScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Icon(Icons.password, size: 80, color: Colors.blue),
-                const SizedBox(height: 16),
+                const Center(child: GivTaskLogo(size: 70)),
+                const SizedBox(height: 32),
                 Text(
                   'Create New Password',
-                  style: theme.textTheme.headlineMedium,
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
