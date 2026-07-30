@@ -36,15 +36,19 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/web
           
-      - name: Stage 6 - Setup Node for Selenium
+      - name: Stage 6 - Setup Node and Serve App
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+      - run: |
+          python3 -m http.server 8080 -d build/web &
+          sleep 3
 
-      - name: Stage 7 - Generate Comprehensive Reports (Selenium, Appium, Sec, Perf)
+      - name: Stage 7 - Execute Selenium E2E Tests & Generate Reports
         run: |
           cd selenium-tests
-          npm install exceljs
+          npm install exceljs selenium-webdriver
+          node tests/login-tests.js
           node generate_reports.js
 
       - name: Stage 8 - Upload Automation Artifacts

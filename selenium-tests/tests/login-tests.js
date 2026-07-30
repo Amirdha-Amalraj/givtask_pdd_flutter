@@ -2,9 +2,14 @@ const { Builder, By, until } = require('selenium-webdriver');
 const ExcelJS = require('exceljs');
 const fs = require('fs');
 
+const chrome = require('selenium-webdriver/chrome');
+
 async function runLoginTests() {
-    // Initialize the browser
-    let driver = await new Builder().forBrowser('chrome').build();
+    // Initialize the browser in headless mode for CI/CD
+    let options = new chrome.Options();
+    options.addArguments('--headless', '--disable-gpu', '--no-sandbox');
+    
+    let driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
     let testResults = [];
     
     try {
