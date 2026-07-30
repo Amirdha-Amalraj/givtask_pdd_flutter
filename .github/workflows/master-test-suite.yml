@@ -102,16 +102,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run Security Assessment (Placeholder)
+      - name: Run Security Assessment (Student Output)
         run: |
           cd selenium-tests
           npm install exceljs
-          node generate_reports.js
-      - name: Upload Security Report
+          node generate_security_reports.js
+      - name: Upload Security Reports
         uses: actions/upload-artifact@v4
         with:
           name: security-report
-          path: selenium-tests/Vulnerability_Test_Report.xlsx
+          path: selenium-tests/Vulnerability Test Results/*
 
   summary:
     needs: [selenium-tests, appium-tests, load-tests, security-assessment]
