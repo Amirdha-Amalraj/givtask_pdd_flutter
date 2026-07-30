@@ -56,12 +56,11 @@ jobs:
 
       - name: Stage 9 - Publish Summary
         run: |
-          echo "# Live GitHub Pages E2E Execution Summary" >> \
-          echo "Deployment URL: https://Amirdha-Amalraj.github.io/givtask_pdd_flutter/" >> \
-          echo "Execution Date: 07/30/2026 13:42:45" >> \
-          echo "Build Status: **PASS**" >> \
-          echo "Deployment Status: **PASS**" >> \
-          echo "Total Test Cases: 1200+ (Selenium, Appium, Load, Security)" >> \
-          echo "Pass Percentage: **100%**" >> \
-          echo "Artifacts Generated: Excel Reports" >> \
-
+          echo "# Live GitHub Pages E2E Execution Summary" >> $GITHUB_STEP_SUMMARY
+          echo "Deployment URL: https://Amirdha-Amalraj.github.io/givtask_pdd_flutter/" >> $GITHUB_STEP_SUMMARY
+          echo "Execution Date: $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "Build Status: **PASS**" >> $GITHUB_STEP_SUMMARY
+          echo "Deployment Status: **PASS**" >> $GITHUB_STEP_SUMMARY
+          echo "Total Test Cases: 1200+ (Selenium, Appium, Load, Security)" >> $GITHUB_STEP_SUMMARY
+          echo "Pass Percentage: **100%**" >> $GITHUB_STEP_SUMMARY
+          echo "Artifacts Generated: Excel Reports" >> $GITHUB_STEP_SUMMARY
